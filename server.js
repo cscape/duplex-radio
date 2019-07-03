@@ -1,15 +1,37 @@
 const http = require('http')
 
-const handler = (req, res) => {
-  res.writeHead(200, {'Content-Type': 'text/html'});
-  res.write(req.url);
-  res.end();
+const StatusHandler = (req, res) => {
+  const status = 200
+  res.writeHead(status, {'Content-Type': 'application/json'})
+  res.write(JSON.stringify({
+    status: status,
+    message: 'OK'
+  }))
+  res.end()
 }
 
-http.createServer().listen(8080);
+const StreamHandler = (req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/html'})
+  res.end()
+}
 
+const Error404Handler = (req, res) => {
+  const status = 404
+  res.writeHead(status, {'Content-Type': 'application/json'})
+  res.write(JSON.stringify({
+    status: status,
+    message: 'Resource not found.'
+  }))
+  res.end()
+}
 
-// listen for requests :)
-const listener = app.listen(process.env.PORT, function() {
-  console.log('Your app is listening on port ' + listener.address().port);
-});
+const handler = (req, res) => {
+  const ReqUrl = req.url.indexOf('/') === 0 ? req.url.substr(1).split('/') : [null]
+  switch (ReqUrl[0]) {
+    case 'status': return StatusHandler(req, res); break
+    case 'stream': return StreamHandler(req, res); break
+    default: return Error404Handler(req, res); break
+  }
+}
+
+http.createServer(handler).listen(process.env.PORT)
