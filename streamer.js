@@ -22,13 +22,13 @@ const getStream = async () => new Promise((resolve, reject) => {
 
     res.setEncoding('binary');
     let rawData = ''
-    res.on('data', chunk => { rawData += chunk; });
+    res.on('data', chunk => { rawData += chunk; })
     res.on('end', () => {
       try {
-        const parsedData = JSON.parse(rawData);
-        console.log(parsedData);
+        const parsedData = JSON.parse(rawData)
+        console.log(parsedData)
       } catch (e) {
-        console.error(e.message);
+        console.error(e.message)
       }
     });
   }).on('error', (e) => {
