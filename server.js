@@ -1,20 +1,13 @@
-// server.js
-// where your node app starts
+const http = require('http')
 
-// init project
-const express = require('express');
-const app = express();
+const handler = (req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write(req.url);
+  res.end();
+}
 
-// we've started you off with Express, 
-// but feel free to use whatever libs or frameworks you'd like through `package.json`.
+http.createServer().listen(8080);
 
-// http://expressjs.com/en/starter/static-files.html
-app.use(express.static('public'));
-
-// http://expressjs.com/en/starter/basic-routing.html
-app.get('/', function(request, response) {
-  response.sendFile(__dirname + '/views/index.html');
-});
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, function() {
