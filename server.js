@@ -14,8 +14,8 @@ const StatusHandler = (req, res) => {
 }
 
 const StreamHandler = (req, res) => {
-  res.writeHead(200, {'Content-Type': 'text/html'})
-  res.end()
+  res.writeHead(200, {'Content-Type': 'audio/mpeg'})
+  MusicStream.pipe(res)
 }
 
 const Error404Handler = (req, res) => {
