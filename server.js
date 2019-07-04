@@ -35,7 +35,7 @@ const Error404Handler = (req, res) => {
 }
 
 const handler = (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'cyberscape.co')
+  res.setHeader('Access-Control-Allow-Origin', '*')
   const ReqUrl = req.url.indexOf('/') === 0 ? req.url.substr(1).split('/') : [null]
   switch (ReqUrl[0]) {
     case 'status': return StatusHandler(req, res); break
