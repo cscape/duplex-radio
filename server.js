@@ -18,6 +18,7 @@ const StreamHandler = (req, res) => {
     'Content-Type': 'audio/mpeg',
     'Cache-Control': 'no-cache',
     'X-Powered-By': 'Cyberscape Jukebox',
+    'Access-Control-Allow-Origin': '*',
     ...GetHeaders()
   })
   res.write('\r\n\r\n')
