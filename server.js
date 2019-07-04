@@ -17,6 +17,7 @@ const StreamHandler = (req, res) => {
   res.writeHead(200, {
     'Content-Type': 'audio/mpeg',
     'Cache-Control': 'no-cache',
+    'Expires': 'Mon, 26 Jul 1997 05:00:00 GMT',
     'Pragma': 'no-cache',
     'Server': 'Icecast 2.4.3',
     ...GetHeaders()
