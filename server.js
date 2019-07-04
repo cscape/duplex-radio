@@ -1,7 +1,7 @@
 const http = require('http')
 const getStream = require('./streamer')
 
-const MusicStream = getStream()
+const { MusicStream, GetHeaders } = getStream()
 
 const StatusHandler = (req, res) => {
   const status = 200
@@ -14,7 +14,13 @@ const StatusHandler = (req, res) => {
 }
 
 const StreamHandler = (req, res) => {
-  res.writeHead(200, {'Content-Type': 'audio/mpeg'})
+  res.writeHead(200, {
+    'Content-Type': 'audio/mpeg',
+    'Cache-Control': 'no-cache',
+    'Pragma': 'no-cache',
+    'Server': 'Icecast 2.4.3',
+    ...GetHeaders()
+  })
   MusicStream.pipe(res)
 }
 

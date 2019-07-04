@@ -1,19 +1,21 @@
 const https = require('https')
 const { Readable, Duplex } = require('stream')
 
-let headers = {}
-const getHeaders = () => {
-  return headers
-}
-
 class HeadersInfo {
-  constructor ()
+  constructor () {
+    this.headers = {}
+    return this
+  }
+  setHeader (prop, val) {
+    this.headers[prop] = val
+  }
 }
 
-const DuplexStreamer = ds => https.get('https://vapor.fm:8000/stream', res => {
+const DuplexStreamer = (ds, hd) => https.get('https://vapor.fm:8000/stream', res => {
   Object.keys(res.headers).forEach(h => {
-    if (h.indexOf('icy') === -1) return
-    headers[h] = res.headers[h]
+    if (h.indexOf('icy') === 0 || h.indexOf('ice') === 0) {
+      hd.setHeader(h, res.headers[h])
+    }
   })
 
   ds.readable = true
@@ -24,10 +26,11 @@ const DuplexStreamer = ds => https.get('https://vapor.fm:8000/stream', res => {
 }).on('error', e => console.error(`Got error: ${e.message}`))
 
 const getStream = () => {
+  const Headers = new HeadersInfo()
   const MusicStream = new Duplex()
   MusicStream._read = _ => 0;
-  DuplexStreamer(MusicStream)
-  return MusicStream
+  DuplexStreamer(MusicStream, Headers)
+  return { MusicStream, GetHeaders: () => Headers.headers }
 }
 
-module.exports = { getStream, getHeaders }
+module.exports = getStream
