@@ -1,9 +1,14 @@
 const https = require('https')
+const { Duplex } = require('stream')
+
 
 const getStream = async () => new Promise((resolve, reject) => {
-  https.get('http://nodejs.org/dist/index.json', (res) => {
-    const { statusCode } = res;
-    const contentType = res.headers['content-type'];
+  const MusicStream = new Duplex()
+  MusicStream.readable = true
+  MusicStream.setEncoding('binary')
+  https.get('https://vapor.fm:8000/stream', res => {
+    const { statusCode } = res
+    const contentType = res.headers['content-type']
 
     let error;
     if (statusCode !== 200) {
