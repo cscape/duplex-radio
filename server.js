@@ -1,4 +1,7 @@
 const http = require('http')
+const getStream = require('./streamer')
+
+const MusicStream = getStream()
 
 const StatusHandler = (req, res) => {
   const status = 200
